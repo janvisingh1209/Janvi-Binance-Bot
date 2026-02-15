@@ -1,15 +1,18 @@
 from flask import Flask, jsonify
 import os
 from binance.client import Client
+from flask import Flask, jsonify
+import os
+from binance.client import Client
 
 app = Flask(__name__)
 
-# Load API keys from Render environment variables
-API_KEY = os.getenv("BINANCE_API_KEY")
-API_SECRET = os.getenv("BINANCE_API_SECRET")
 
-# Initialize Binance client (testnet=True for safety)
-client = Client(API_KEY, API_SECRET, testnet=True)
+# ✅ Create Binance client ONLY when needed
+def get_client():
+    API_KEY = os.getenv("BINANCE_API_KEY")
+    API_SECRET = os.getenv("BINANCE_API_SECRET")
+    return Client(API_KEY, API_SECRET, testnet=True)
 
 
 @app.route("/")
@@ -29,6 +32,7 @@ def status():
 @app.route("/price/<symbol>")
 def get_price(symbol):
     try:
+        client = get_client()  # ✅ moved inside route
         price = client.get_symbol_ticker(symbol=symbol.upper())
         return jsonify({
             "symbol": symbol.upper(),
@@ -41,6 +45,7 @@ def get_price(symbol):
 @app.route("/account")
 def account_info():
     try:
+        client = get_client()  # ✅ moved inside route
         info = client.get_account()
         return jsonify({"account_status": "connected"})
     except Exception as e:
