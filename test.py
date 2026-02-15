@@ -11,13 +11,6 @@ API_SECRET = os.getenv("BINANCE_API_SECRET")
 
 # Initialize Binance client with testnet=True
 client = Client(API_KEY, API_SECRET, testnet=True)
-account = client.get_account()
-order = client.order_market_buy(
-    symbol='BTCUSDT',
-    quantity=0.001
-)
-
-print(order)
 
 
 
