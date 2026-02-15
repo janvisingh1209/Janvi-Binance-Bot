@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
+import os
 from binance.client import Client
 
-# Replace with your Spot Testnet keys
-API_KEY = "5Vy9d7FIUIaYYKo7d1TOYjsUeJiLHVo5oDD12r7hz3Np862WSJBQ5qAivHcbjVSu"
-API_SECRET = "4UM4uZBkiglXq5QbiuD6ZRzzxowmgirpJBdYXr1sVEZVRIyBAiB9fUP4YAFK2NEc"
+# Load environment variables from .env
+load_dotenv()
 
+API_KEY = os.getenv("API_KEY")
+API_SECRET = os.getenv("API_SECRET")
 # Initialize Binance client with testnet=True
 client = Client(API_KEY, API_SECRET, testnet=True)
 
