@@ -2,13 +2,24 @@ from dotenv import load_dotenv
 import os
 from binance.client import Client
 
-# Load environment variables from .env
 load_dotenv()
 
-API_KEY = os.getenv("API_KEY")
-API_SECRET = os.getenv("API_SECRET")
+API_KEY = os.getenv("BINANCE_API_KEY")
+API_SECRET = os.getenv("BINANCE_API_SECRET")
+
+
+
 # Initialize Binance client with testnet=True
 client = Client(API_KEY, API_SECRET, testnet=True)
+account = client.get_account()
+order = client.order_market_buy(
+    symbol='BTCUSDT',
+    quantity=0.001
+)
+
+print(order)
+
+
 
 try:
     # Fetch account information
